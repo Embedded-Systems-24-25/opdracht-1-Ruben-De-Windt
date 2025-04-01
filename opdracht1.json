@@ -1,0 +1,368 @@
+[
+    {
+        "id": "f3c6245451498efa",
+        "type": "tab",
+        "label": "Flow 2",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "58ac4030fcdd4fab",
+        "type": "rpi-gpio out",
+        "z": "f3c6245451498efa",
+        "name": "",
+        "pin": "4",
+        "set": true,
+        "level": "0",
+        "freq": "",
+        "out": "out",
+        "bcm": true,
+        "x": 760,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "5d359abf8f57b511",
+        "type": "debug",
+        "z": "f3c6245451498efa",
+        "name": "mqtt output",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 750,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "2",
+        "type": "function",
+        "z": "f3c6245451498efa",
+        "name": "Bouw SQL INSERT",
+        "func": "msg.topic = \"INSERT INTO log_events(action) VALUES (?)\";\nmsg.payload = [msg.payload];\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1010,
+        "y": 240,
+        "wires": [
+            [
+                "4"
+            ]
+        ]
+    },
+    {
+        "id": "4",
+        "type": "mysql",
+        "z": "f3c6245451498efa",
+        "mydb": "a9ebd2f29682ac36",
+        "name": "globe_bank",
+        "x": 1350,
+        "y": 240,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "6b49e12b3ad863b7",
+        "type": "ui_table",
+        "z": "f3c6245451498efa",
+        "group": "70ae67b197f2e7ef",
+        "name": "",
+        "order": 2,
+        "width": "14",
+        "height": "11",
+        "columns": [
+            {
+                "field": "id",
+                "title": "ID",
+                "width": "",
+                "align": "left",
+                "formatter": "plaintext",
+                "formatterParams": {
+                    "target": "_blank"
+                }
+            },
+            {
+                "field": "event_time",
+                "title": "Tijd",
+                "width": "",
+                "align": "left",
+                "formatter": "plaintext",
+                "formatterParams": {
+                    "target": "_blank"
+                }
+            },
+            {
+                "field": "action",
+                "title": "Actie",
+                "width": "",
+                "align": "left",
+                "formatter": "plaintext",
+                "formatterParams": {
+                    "target": "_blank"
+                }
+            }
+        ],
+        "outputs": 0,
+        "cts": false,
+        "x": 1390,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "5dea2fe9c981ac41",
+        "type": "ui_switch",
+        "z": "f3c6245451498efa",
+        "name": "",
+        "label": "led aan uit",
+        "tooltip": "",
+        "group": "70ae67b197f2e7ef",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "1",
+        "onvalueType": "num",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "0",
+        "offvalueType": "num",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 630,
+        "y": 420,
+        "wires": [
+            [
+                "2",
+                "58ac4030fcdd4fab",
+                "fa682159c72bc1e5"
+            ]
+        ]
+    },
+    {
+        "id": "rbe_node",
+        "type": "rbe",
+        "z": "f3c6245451498efa",
+        "name": "Blokkeer dubbele waardes",
+        "func": "rbe",
+        "gap": "",
+        "start": "",
+        "inout": "out",
+        "septopics": true,
+        "property": "payload",
+        "topi": "topic",
+        "x": 420,
+        "y": 180,
+        "wires": [
+            [
+                "58ac4030fcdd4fab",
+                "5d359abf8f57b511",
+                "5dea2fe9c981ac41"
+            ]
+        ]
+    },
+    {
+        "id": "2ab273e5391f0afd",
+        "type": "mqtt in",
+        "z": "f3c6245451498efa",
+        "name": "",
+        "topic": "opdracht1rubendewindt",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "d4f124f5ad28726c",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 120,
+        "y": 180,
+        "wires": [
+            [
+                "rbe_node"
+            ]
+        ]
+    },
+    {
+        "id": "fa682159c72bc1e5",
+        "type": "mqtt out",
+        "z": "f3c6245451498efa",
+        "name": "",
+        "topic": "opdracht1rubendewindt",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "d4f124f5ad28726c",
+        "x": 990,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "78324cee7dba7280",
+        "type": "debug",
+        "z": "f3c6245451498efa",
+        "name": "debug date picker",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 710,
+        "y": 660,
+        "wires": []
+    },
+    {
+        "id": "1f59db932785ec7d",
+        "type": "ui_date_picker",
+        "z": "f3c6245451498efa",
+        "name": "Kies Datum",
+        "label": "Datum",
+        "group": "70ae67b197f2e7ef",
+        "order": 1,
+        "width": "6",
+        "height": "1",
+        "passthru": true,
+        "topic": "",
+        "topicType": "str",
+        "className": "",
+        "x": 470,
+        "y": 580,
+        "wires": [
+            [
+                "78324cee7dba7280",
+                "multiDateParse"
+            ]
+        ]
+    },
+    {
+        "id": "a533f6b18aec0234",
+        "type": "debug",
+        "z": "f3c6245451498efa",
+        "name": "Debug output",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "x": 1160,
+        "y": 660,
+        "wires": []
+    },
+    {
+        "id": "multiDateParse",
+        "type": "function",
+        "z": "f3c6245451498efa",
+        "name": "Multi date parse (timestamp/obj)",
+        "func": "// Toon wat er binnenkomt\nnode.warn(\"Ontvangen payload: \" + JSON.stringify(msg.payload));\n\nlet val = msg.payload;\n\nif (typeof val === \"number\") {\n    // 1) Als het een timestamp is (bv. 1743379200000)\n    let d = new Date(val);\n    if (isNaN(d.getTime())) {\n        node.error(\"Ongeldige datum ontvangen (timestamp)\", msg);\n        return null;\n    }\n    let formatted = d.toISOString().split(\"T\")[0];\n    node.warn(\"Datum (timestamp) => \" + formatted);\n\n    msg.topic = \"SELECT * FROM log_events WHERE DATE(event_time) = ?\";\n    msg.payload = [formatted];\n    return msg;\n\n} else if (typeof val === \"object\" && val.year && val.month && val.day) {\n    // 2) Als het een object is (bv. { day:31, month:3, year:2025 })\n    let yyyy = val.year;\n    let mm = (\"0\" + val.month).slice(-2);\n    let dd = (\"0\" + val.day).slice(-2);\n    let formatted = `${yyyy}-${mm}-${dd}`;\n    node.warn(\"Datum (object) => \" + formatted);\n\n    msg.topic = \"SELECT * FROM log_events WHERE DATE(event_time) = ?\";\n    msg.payload = [formatted];\n    return msg;\n\n} else {\n    node.error(\"Onbekend datepicker-formaat\", msg);\n    return null;\n}\n",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 870,
+        "y": 600,
+        "wires": [
+            [
+                "a533f6b18aec0234",
+                "b7090694976aaf91"
+            ]
+        ]
+    },
+    {
+        "id": "b7090694976aaf91",
+        "type": "mysql",
+        "z": "f3c6245451498efa",
+        "mydb": "a9ebd2f29682ac36",
+        "name": "globe_bank",
+        "x": 1210,
+        "y": 580,
+        "wires": [
+            [
+                "6b49e12b3ad863b7"
+            ]
+        ]
+    },
+    {
+        "id": "a9ebd2f29682ac36",
+        "type": "MySQLdatabase",
+        "name": "",
+        "host": "127.0.0.1",
+        "port": "3306",
+        "db": "globe_bank",
+        "tz": "",
+        "charset": "UTF8"
+    },
+    {
+        "id": "70ae67b197f2e7ef",
+        "type": "ui_group",
+        "name": "Default",
+        "tab": "139ba3cab086f37b",
+        "order": 1,
+        "disp": true,
+        "width": "14",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "d4f124f5ad28726c",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "192.168.137.1",
+        "port": 1883,
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": 4,
+        "keepalive": 60,
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "139ba3cab086f37b",
+        "type": "ui_tab",
+        "name": "Home",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    }
+]

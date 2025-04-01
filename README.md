@@ -23,7 +23,7 @@ Functionaliteiten:
 
 1. **Clone deze repository**:
     ```bash
-    git clone <https://github.com/Embedded-Systems-24-25/opdracht-1-Ruben-De-Windt.git>
+    git clone https://github.com/Embedded-Systems-24-25/opdracht-1-Ruben-De-Windt.git
     cd opdracht1
     ```
 
@@ -57,11 +57,6 @@ Functionaliteiten:
 | `ui_table` | Toont logdata in een dashboard |
 | `ui_date_picker` | Laat de gebruiker een datum kiezen om logs op te vragen |
 
-## 📸 Dashboardvoorbeeld
-
-- Switch: LED aan/uit
-- Date Picker: Selecteer een datum om loggegevens op te halen
-- Tabel: Toont de logs van de geselecteerde datum
 
 ## ✍️ Auteur
 
